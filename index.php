@@ -19,8 +19,6 @@
 		<link rel="stylesheet" type="text/css" href="https://jonthornton.github.io/jquery-timepicker/jquery.timepicker.css">
 		<script type="text/javascript" src="https://jonthornton.github.io/jquery-timepicker/lib/bootstrap-datepicker.js"></script>
 		<link rel="stylesheet" type="text/css" href="https://jonthornton.github.io/jquery-timepicker/lib/bootstrap-datepicker.css">
-      	<!--DayPilot Calendar
-      	<script src="static/js/daypilot-all.min.js" type="text/javascript"></script>-->
 
       	<!--Semantic UI Calendar-->
       	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.7/semantic.min.css">
@@ -117,6 +115,7 @@
 							return false;
 						}
 						else{
+							//parse date and times
 							raw_date = $('#datepicker-1').datepicker({ dateFormat: 'dd,MM,yyyy' }).val();
 							var year = raw_date.substr(6,9);
 							var month = raw_date[0] + raw_date[1];
@@ -160,53 +159,46 @@
 							end_time = date_ + 'T' + e_hour + e_min + ":00";
 							var start_date = new Date(start_time);
 							var end_date = new Date(end_time);
-							alert(start_date + " " + end_date);
+							//alert(start_date + " " + end_date);
 			      			start_time = moment(start_time).format('YYYY-MM-DDTHH:mm:ss'); 
         					end_time = moment(end_time).format('YYYY-MM-DDTHH:mm:ss'); 
-        					var id;
+        					//insert the meeting in "events" table, generating an id in the process
 				      		$.ajax({
 				       			url:"insert.php",
 				       			type:"POST",
 				       			data:{title:title, start:start_time, end:end_time},
+				       			async:false,
 				       			success:function()	{
 				        			$('#calendar').fullCalendar('refetchEvents');
 				        			alert("Added Successfully");
 				       			},
 				       			error:function(jqXHR,textStatus,errorThrown){alert('Exception:'+errorThrown);}
 				      		});
-				      		$.ajax({
-				       			url:"get_id.php",
-				       			type:"POST",
-				       			success:function()	{
-				       				////////
-				       				//ADD CODE HERE TO GET THE ID
-				       				//ID IS NEEDED TO PROPERLY LABEL ATTENDEES
-				       				////////
-				       			},
-				       			error:function(jqXHR,textStatus,errorThrown){alert('Exception:'+errorThrown);}
+				      		$.get("get_id.php", function(data){ 
+				      			var id = (JSON.parse(data))[0]["id"];
+				      			//alert(id);
+				      			var userlist = [];
+				      			//add each attendee to the userlist
+								for(i=1; i<counter; i++){
+				   	  				userlist.push($('#textbox' + i).val());
+								}
+
+				      			var j;
+				      			//append each user to the "users" table in the database using the same id as the meeting
+				      			for (j = 0; j < userlist.length; j++){
+				      				var current_user = userlist[j];
+				      				$.ajax({
+				       					url:"add_users.php",
+				       					type:"POST",
+				       					data:{id:id, username:current_user},
+				       					success:function()	{
+				        					$('#calendar').fullCalendar('refetchEvents');
+				       					},
+				       					error:function(jqXHR,textStatus,errorThrown){alert('Exception:'+errorThrown);}
+				      				});
+				      			}
+
 				      		});
-
-				      		var userlist = [];
-				      		//add each attendee to the userlist
-							for(i=1; i<counter; i++){
-				   	  			userlist.push($('#textbox' + i).val());
-							}
-
-				      		var j;
-				      		//append each user to the "users" table in the database using the same id as the meeting
-				      		for (j = 0; j < userlist.length; j++){
-				      			var current_user = userlist[j];
-				      			$.ajax({
-				       				url:"add_users.php",
-				       				type:"POST",
-				       				data:{id:id, username:current_user},
-				       				success:function()	{
-				        				alert("Added User Successfully");
-				        				$('#calendar').fullCalendar('refetchEvents');
-				       				},
-				       				error:function(jqXHR,textStatus,errorThrown){alert('Exception:'+errorThrown);}
-				      			});
-				      		}
 			     		}
 				    });
 				});
@@ -258,58 +250,6 @@
 	            events: 'load.php',
 	            selectable:true,
 	            selectHelper:true,
-	            select: function(start, end)
-			    {
-			    	var title = prompt("Enter Event Title");
-			     	if(title)
-			     	{
-			      		var start = $.fullCalendar.formatDate(start, "YYYY-MM-DD HH:mm:ss");
-			      		var end = $.fullCalendar.formatDate(end, "YYYY-MM-DD HH:mm:ss");
-			      		$.ajax({
-			       			url:"insert.php",
-			       			type:"POST",
-			       			data:{title:title, start:start, end:end},
-			       			success:function()	{
-			        			calendar.fullCalendar('refetchEvents');
-			        			alert("Added Successfully");
-			       			}
-			      		})
-			     	}
-			    },
-			    editable:true,
-			    eventResize:function(event)
-			    {
-			     	var start = $.fullCalendar.formatDate(event.start, "Y-MM-DD HH:mm:ss");
-			     	var end = $.fullCalendar.formatDate(event.end, "Y-MM-DD HH:mm:ss");
-			     	var title = event.title;
-			     	var id = event.id;
-			     	$.ajax({
-				      	url:"update.php",
-				      	type:"POST",
-				      	data:{title:title, start:start, end:end, id:id},
-				      	success:function(){
-			       			calendar.fullCalendar('refetchEvents');
-			       			alert('Event Update');
-			      		}
-			     	})
-			    },
-
-			    eventDrop:function(event){
-			    	var start = $.fullCalendar.formatDate(event.start, "Y-MM-DD HH:mm:ss");
-			     	var end = $.fullCalendar.formatDate(event.end, "Y-MM-DD HH:mm:ss");
-			     	var title = event.title;
-			     	var id = event.id;
-			     	$.ajax({
-			      		url:"update.php",
-			     		type:"POST",
-			      		data:{title:title, start:start, end:end, id:id},
-			      		success:function(){
-			       			calendar.fullCalendar('refetchEvents');
-			       			alert("Event Updated");
-			     		}
-			     	})
-			    },
-
 			    eventClick:function(event){
 			     	if(confirm("Are you sure you want to remove it?")){
 			      		var id = event.id;
@@ -328,15 +268,14 @@
 			      			data:{id:id},
 			      			success:function(){
 			      				calendar.fullCalendar('refetchEvents');
-			      				alert("Users removed");
 			      			}
 			      		})
 			     	}
 			    },
-
-			    eventMouseEnter:function(event){
+			    //Mouse hover not supported by fullcalendar or just poorly documented
+			    /*eventMouseEnter:function(event){
 			    	console.log("Hovered over event");
-			    }
+			    }*/
 	        });
 	    });
 	</script>

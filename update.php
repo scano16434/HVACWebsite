@@ -7,7 +7,7 @@ try{
     print "Error!: " . $e->getMessage() . "<br/>";
     die();
 }
-if (isset($_POST["id"])){
+//if (isset($_POST["id"])){
 	$query = "
 	UPDATE events
 	SET title=:title, start_event=:start_event, end_event=:end_event
@@ -22,6 +22,6 @@ if (isset($_POST["id"])){
 			':id'		=> $_POST['id']
 		)
 	);
-}
+//}
 
 ?>
