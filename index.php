@@ -149,8 +149,14 @@
 							if (s_time_of_day == "pm" && s_hour != "12"){
 								s_hour = String(Number(s_hour)+12);
 							}
+							else if (s_time_of_day == "am" && s_hour == "12"){
+								s_hour = "00";
+							}
 							if (e_time_of_day == "pm" && e_hour != "12"){
 								e_hour = String(Number(e_hour)+12);
+							}
+							else if (e_time_of_day == "am" && e_hour == "12"){
+								e_hour = "00";
 							}
 							date_ = year + '-' + month + '-' + day;
 							title = $('#meetingtitle').val();
@@ -170,7 +176,6 @@
 				       			async:false,
 				       			success:function()	{
 				        			$('#calendar').fullCalendar('refetchEvents');
-				        			alert("Added Successfully");
 				       			},
 				       			error:function(jqXHR,textStatus,errorThrown){alert('Exception:'+errorThrown);}
 				      		});
@@ -220,10 +225,12 @@
 	<script>
 		function openNav() {
 	  		document.getElementById("mySidenav").style.width = "275px";
+	  		//$('#calendar').animate({'left', '-5px'});
 		}
 
 		function closeNav() {
 			document.getElementById("mySidenav").style.width = "0";
+			//$('#calendar').animate({'left', '-5px'});
 		}
 	</script>
 
