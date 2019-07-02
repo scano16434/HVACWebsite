@@ -172,10 +172,9 @@
 				      		$.ajax({
 				       			url:"insert.php",
 				       			type:"POST",
+                                async:false,
 				       			data:{title:title, start:start_time, end:end_time},
-				       			async:false,
-				       			success:function()	{
-				        			$('#calendar').fullCalendar('refetchEvents');
+                                   success:function()	{
 				       			},
 				       			error:function(jqXHR,textStatus,errorThrown){alert('Exception:'+errorThrown);}
 				      		});

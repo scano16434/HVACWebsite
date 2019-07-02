@@ -7,8 +7,8 @@
 --
 -- Table structure for table `events`
 --
-CREATE DATABASE NEW_DB;
-USE NEW_DB;
+CREATE DATABASE new_db;
+USE new_db;
 
 CREATE TABLE IF NOT EXISTS `events` (
   `id` int(11) NOT NULL,
