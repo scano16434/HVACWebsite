@@ -202,6 +202,21 @@
 				      				});
 				      			}
 
+                                var data0 = {"id":id, "title":title, "start_time":start_time, "end_time":end_time, "userlist":userlist};
+                                var data = JSON.stringify(data0);
+                                  
+                                $.ajax({
+                                    type:"POST",
+                                    // url removed from github for security
+                                    url:'http://',
+                                    data:data,
+                                    dataType: "text",
+                                    contentType: "application/json; charset=UTF-8",
+                                    success:function(){
+                                       console.log("submitted")
+                                    },
+                                    error:function(jqXHR,textStatus,errorThrown){alert('Exception:'+errorThrown);}
+                                });
 				      		});
                             document.getElementById("mySidenav").style.width = "0";
 			     		}
@@ -277,6 +292,20 @@
 			      				calendar.fullCalendar('refetchEvents');
 			      			}
 			      		})
+                        var data0 = {"id":id};
+                        var data = JSON.stringify(data0);
+                        $.ajax({
+                            type:"POST",
+                            // url removed from github for security
+                            url:'http://',
+                            data:data,
+                            dataType: "text",
+                            contentType: "application/json; charset=UTF-8",
+                            success:function(){
+                                console.log("deleted")
+                            },
+                            error:function(jqXHR,textStatus,errorThrown){alert('Exception:'+errorThrown);}
+                        });
 			     	}
 			    },
 			    //Mouse hover not supported by fullcalendar or just poorly documented
