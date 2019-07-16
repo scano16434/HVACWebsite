@@ -2,7 +2,7 @@
 
 
 **Code changes** <br>
-Lines 211 and 300 of index.php must be configured to match the appropriate url before implementing. This url is removed from this GitHub repository, to protect the public ip address used to access this website.
+Lines 211 and 300 of index.php must be configured to match the appropriate url of the preference server before implementing. This url is removed from this GitHub repository, to protect the public ip address used to access this website.
 
 
 **Running the code** <br>
