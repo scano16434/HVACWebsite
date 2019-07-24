@@ -2,7 +2,7 @@
 
 
 **Code changes** <br>
-Lines 211 and 300 of index.php must be configured to match the appropriate url of the preference server before implementing. This url is removed from this GitHub repository, to protect the public ip address used to access this website. An index.php, with the relevant url can be found on the SRC Linux Machine, located in opt/lampp/htdocs/index.php.
+Lines 221 and 311 of home.php must be configured to match the appropriate url of the preference server before implementing. This url is removed from the repository, to protect the public ip address used to access this website. A home.php, with the relevant url, can be found on the SRC Linux Machine, located in opt/lampp/htdocs/home.php.
 
 
 **Running the code** <br>
