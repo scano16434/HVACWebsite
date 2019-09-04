@@ -19,10 +19,16 @@
     </div>
     
     <div class="button-panel">
-		<input type="submit" class="button" title="Log In" name="login" value="Login"></input>
+		<input type="submit" class="button" title="Log In" name="login" value="Admin Login"></input>
+    </div>
+    <div class="reminder">
+        <br/> <br/> <font size="5"> <b> or </b> </font> <br/>
     </div>
   </form>
-  <?php
+<div class="button-panel">
+<input type="submit" class="button" onclick="location.href = 'guest.php';" id="schedule" value="View Schedule As Guest"></input>
+</div>
+<?php
 	if (isset($_POST['login']))
 		{
 			$username = mysqli_real_escape_string($con, $_POST['user']);
@@ -43,20 +49,8 @@
 					echo 'Invalid Username and Password Combination';
 				}
 		}
-  ?>
-  <div class="reminder">
-    <script type="text/javascript">
-    function AlertIt() {
-    var answer = confirm ("Admin username and password can be found on the text file home/public/HVAC/credentials.txt, located on the SCR Linux Machine (192.160.0.2), on newtwork SCR_AP in CII 7003")
-    if (answer)
-        window.location;
-    }
-    </script>
-    <br/>
-    <p><a href="javascript:AlertIt();">Forgot username/password?</a></p>
-</div>
+?>
 
 </div>
-
 </body>
 </html>

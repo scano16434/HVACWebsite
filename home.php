@@ -245,6 +245,13 @@ $row=mysqli_fetch_array($result);
 			<input type='button' value='Remove Attendee' id='removeButton'>
 			<br/> <br/>
 			<input type='button' value='Submit' id='submitButton'>
+			<br/> <br/> <br/>
+			<body> <small>
+				<font color="white">Use attendees' email addresses above, in order to <br/>
+				keep their SCR profile preferences consistent, and <br/> 
+				to avoid creating new profiles automatically for <br/>
+		    	the same users. <br/> <br/> </font>
+		    </small> </body>
 		</form>
 	</div>
 

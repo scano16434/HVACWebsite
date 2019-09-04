@@ -11,10 +11,10 @@ body {
 
 .form-wrapper {
 width:300px;
-height:370px;
+height:425px;
   position: absolute;
-  top: 50%;
-  left: 48%;
+  top: 43%;
+  left: 50%;
   margin: -184px 0px 0px -155px;
   background: rgba(0,0,0,0.27);
   padding: 15px 25px;
